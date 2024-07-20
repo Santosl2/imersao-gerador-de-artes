@@ -92,22 +92,26 @@ function drawData({ type = "telao", img }) {
 
   const enderecoInput = document.querySelector("[name=endereco]");
   const bairroInput = document.querySelector("[name=bairro]");
-  const endereco = enderecoInput.value || "R. Violeta, 65";
-  const bairro = bairroInput.value || "Bom Jardim";
+  const numeroInput = document.querySelector("[name=numero]");
+  const endereco = enderecoInput.value;
+  const bairro = bairroInput.value;
+
+  const enderecoFormatado = `${endereco}, ${numeroInput.value}`;
+
   if (type === "story") {
     function measureTextSize(txt) {
       const textWidth = ctx.measureText(txt).width;
       return textWidth / 2;
     }
 
-    const textWidth = measureTextSize(endereco);
+    const textWidth = measureTextSize(enderecoFormatado);
     const textWidth2 = measureTextSize(bairro);
 
     const x = this.width / 2;
-    ctx.fillText(endereco, x - textWidth, this.height - 293);
+    ctx.fillText(enderecoFormatado, x - textWidth, this.height - 293);
     ctx.fillText(bairro, x - textWidth2, this.height - 253);
   } else {
-    ctx.fillText(endereco, ruaCoords.x, ruaCoords.y);
+    ctx.fillText(enderecoFormatado, ruaCoords.x, ruaCoords.y);
     ctx.fillText(bairro, bairroCoords.x, bairroCoords.y);
   }
 }
