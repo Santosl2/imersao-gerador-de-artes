@@ -1,5 +1,7 @@
 const canvas = document.getElementById("canvas");
 const img = document.getElementById("img");
+const generateButton = document.getElementById("generate");
+const form = document.querySelector("form");
 
 async function getImageBlob(image) {
   const data = await fetch(`./images/${image}`, {
@@ -46,6 +48,8 @@ async function loadImages() {
   const telao = getImageBlob("telao.png");
   const story = getImageBlob("story.png");
 
+  generateButton.textContent = "Gerando artes...";
+  generateButton.disabled = true;
   const promises = Promise.all([telao, story]);
   const [telaoBlob, storyBlob] = await promises;
 
@@ -57,7 +61,7 @@ async function loadImages() {
     canvas.height = baseTelaoImage.height;
     drawData.call(this, { type: "telao", img: baseTelaoImage });
 
-    zip.addFileToZip("telao.png", canvas.toDataURL());
+    // zip.addFileToZip("telao.png", canvas.toDataURL());
     createDownloadButton(canvas, "telao");
   };
 
@@ -67,19 +71,21 @@ async function loadImages() {
     canvas.width = baseStoryImage.width;
     canvas.height = baseStoryImage.height;
     drawData.call(this, { type: "story", img: baseStoryImage });
-    zip.addFileToZip("story.png", canvas.toDataURL());
+    // zip.addFileToZip("story.png", canvas.toDataURL());
     createDownloadButton(canvas, "story");
   };
 
+  generateButton.textContent = "Gerar artes";
+  generateButton.disabled = false;
   // await zip.generateZip();
 }
 
 function createDownloadButton(canvas, name) {
   const downloadButton = document.createElement("a");
+  downloadButton.innerText = `Baixar arte ${name}`;
   downloadButton.href = canvas.toDataURL();
   downloadButton.download = `${name}-${new Date().getTime()}.png`;
-  document.body.appendChild(downloadButton);
-  downloadButton.click();
+  form.appendChild(downloadButton);
 }
 
 function drawData({ type = "telao", img }) {
@@ -96,7 +102,7 @@ function drawData({ type = "telao", img }) {
   const endereco = enderecoInput.value.replace(/rua/gi, "").trim();
   const bairro = bairroInput.value;
 
-  const enderecoFormatado = `${endereco}, ${numeroInput.value}`;
+  const enderecoFormatado = `R. ${endereco}, ${numeroInput.value}`;
 
   if (type === "story") {
     function measureTextSize(txt) {

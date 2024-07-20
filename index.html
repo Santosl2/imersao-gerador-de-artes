@@ -22,11 +22,13 @@
         type="text"
         name="endereco"
         class="border p-2 rounded"
+        required
         placeholder="Endereço. Ex.: Violeta - Não escrever 'RUA'"
       />
       <input
         type="text"
         name="numero"
+        required
         class="border p-2 rounded"
         placeholder="Número"
       />
@@ -34,6 +36,7 @@
         type="text"
         class="border p-2 rounded"
         name="bairro"
+        required
         placeholder="Bairro. Ex.: Veneza 1"
       />
       <button
@@ -48,5 +51,11 @@
     <img id="img" style="display: none" />
     <canvas id="canvas" style="display: none" />
   </body>
+  <style>
+    a {
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+  </style>
   <script src="scripts.js" defer></script>
 </html>
