@@ -93,7 +93,7 @@ function drawData({ type = "telao", img }) {
   const enderecoInput = document.querySelector("[name=endereco]");
   const bairroInput = document.querySelector("[name=bairro]");
   const numeroInput = document.querySelector("[name=numero]");
-  const endereco = enderecoInput.value;
+  const endereco = enderecoInput.value.replace(/rua/gi, "").trim();
   const bairro = bairroInput.value;
 
   const enderecoFormatado = `${endereco}, ${numeroInput.value}`;
