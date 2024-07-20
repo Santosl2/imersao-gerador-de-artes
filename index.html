@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gerador de arte | Imersão</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"
+      integrity="sha512-csNcFYJniKjJxRWRV1R7fvnXrycHP6qDR21mgz1ZP55xY5d+aHLfo9/FcGDQLfn2IfngbAHd8LdfsagcCqgTcQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script src="./lib/jszip.min.js"></script>
+  </head>
+  <body class="p-4 w-full">
+    <form
+      onsubmit="loadImages();return false;"
+      class="flex flex-col gap-4 justify-center items-center h-screen w-full [&_input]:w-full [&_input]:max-w-md"
+    >
+      <input
+        type="text"
+        name="endereco"
+        class="border p-2 rounded"
+        placeholder="Endereço. Ex.: R. Violeta, 65"
+      />
+      <input
+        type="text"
+        class="border p-2 rounded"
+        name="bairro"
+        placeholder="Bairro"
+      />
+      <button
+        type="submit"
+        id="generate"
+        class="bg-blue-600 p-2 rounded text-white text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        Gerar artes
+      </button>
+    </form>
+
+    <img id="img" style="display: none" />
+    <canvas id="canvas" style="display: none" />
+  </body>
+  <script src="scripts.js" defer></script>
+</html>
