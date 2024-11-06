@@ -39,6 +39,11 @@
         required
         placeholder="Bairro. Ex.: Veneza 1"
       />
+      <select name="tipo" class="border p-2 rounded">
+        <!-- <option value="imersao-v1">Imersão v1</option> -->
+        <option value="imersao-v1">Imersão</option>
+        <option value="ct">Conexão Teen</option>
+      </select>
       <button
         type="submit"
         id="generate"
@@ -48,8 +53,8 @@
       </button>
     </form>
 
-    <img id="img" style="display: none" />
-    <canvas id="canvas" style="display: none" />
+    <img id="img" style="display: block" />
+    <canvas id="canvas" style="display: block" />
   </body>
   <style>
     a {
@@ -57,5 +62,5 @@
       text-underline-offset: 4px;
     }
   </style>
-  <script src="scripts.js" defer></script>
+  <script src="script-new.js" defer></script>
 </html>
