@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -6,8 +6,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite + React + TS</title>
   </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+  <body class="p-4 w-full">
+    <form
+      onsubmit="loadImages();return false;"
+      class="flex flex-col gap-4 justify-center items-center h-screen w-full [&_input]:w-full [&_input]:max-w-md"
+    >
+      <input
+        type="text"
+        name="endereco"
+        class="border p-2 rounded"
+        required
+        placeholder="Endereço. Ex.: Violeta - Não escrever 'RUA'"
+      />
+      <input
+        type="text"
+        name="numero"
+        required
+        class="border p-2 rounded"
+        placeholder="Número"
+      />
+      <input
+        type="text"
+        class="border p-2 rounded"
+        name="bairro"
+        required
+        placeholder="Bairro. Ex.: Veneza 1"
+      />
+      <button
+        type="submit"
+        id="generate"
+        class="bg-blue-600 p-2 rounded text-white text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        Gerar artes
+      </button>
+    </form>
+
+    <img id="img" style="display: none" />
+    <canvas id="canvas" style="display: none" />
   </body>
+  <style>
+    a {
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+  </style>
+  <script src="scripts.js" defer></script>
 </html>
