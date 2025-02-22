@@ -1,5 +1,6 @@
 {
-  "fontSize": 24,
+  "fontSize": 42,
+  "fontFamily": "MonumentRegular",
   "telao": {
     "rua": {
       "x": 161.1,

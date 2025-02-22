@@ -1,13 +1,14 @@
 {
-  "fontSize": 24,
+  "fontSize": 32,
+  "fontFamily": "MontserratSemiBold",
   "telao": {
     "rua": {
-      "x": "414",
-      "y": "1785"
+      "x": "782",
+      "y": "948"
     },
     "bairro": {
-      "x": "414",
-      "y": "1785"
+      "x": "782",
+      "y": "977"
     }
   },
   "story": {

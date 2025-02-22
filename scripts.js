@@ -1,9 +1,4 @@
 const canvas = document.getElementById("canvas");
-const canvasTelao = document.getElementById("telao");
-const canvasStory = document.getElementById("story");
-
-const img = document.getElementById("img");
-
 const generateButton = document.getElementById("generate");
 const form = document.querySelector("form");
 
@@ -24,12 +19,21 @@ async function getDepartmentConfig(department) {
 }
 
 async function loadFonts() {
-  const font = new FontFace(
-    "MonumentRegular",
-    "url(./fonts/MonumentExtended-Regular.otf)"
-  );
-  await font.load();
-  document.fonts.add(font);
+  const fonts = [
+    {
+      name: "MonumentRegular",
+      url: "./fonts/MonumentExtended-Regular.otf",
+    },
+    { name: "MontserratRegular", url: "./fonts/Montserrat-Regular.otf" },
+    { name: "MontserratSemiBold", url: "./fonts/Montserrat-SemiBold.otf" },
+  ];
+
+  fonts.forEach(async ({ name, url }) => {
+    console.log("Carregando fonte: ", name);
+    const font = new FontFace(name, `url(${url})`);
+    await font.load();
+    document.fonts.add(font);
+  });
 }
 
 // Fallback
@@ -60,38 +64,25 @@ async function loadImages() {
   await loadFonts();
 
   const department = document.querySelector("[name=department]").value;
+  const type = document.querySelector("[name=style]").value;
   const config = await getDepartmentConfig(department);
-
-  const telao = getImageBlob(`${department}/telao.png`);
-  const story = getImageBlob(`${department}/story.png`);
 
   generateButton.textContent = "Gerando artes...";
   generateButton.disabled = true;
-  const promises = Promise.all([telao, story]);
-  const [telaoBlob, storyBlob] = await promises;
+
+  const imageBlob = await getImageBlob(`${department}/${type}.png`);
 
   const zip = zipData();
 
-  // Telão
-  const baseTelaoImage = new Image();
-  baseTelaoImage.src = URL.createObjectURL(telaoBlob);
-  baseTelaoImage.onload = function () {
-    canvasTelao.width = baseTelaoImage.width;
-    canvasTelao.height = baseTelaoImage.height;
-    drawData.call(this, { type: "telao", img: baseTelaoImage, config });
+  const img = new Image();
+  img.src = URL.createObjectURL(imageBlob);
+  img.onload = function () {
+    canvas.width = img.width;
+    canvas.height = img.height;
+    drawData.call(this, { type, img, config });
 
     //   // zip.addFileToZip("telao.png", canvas.toDataURL());
-    //   // createDownloadButton(canvas, "telao");
-  };
-
-  const baseStoryImage = new Image();
-  baseStoryImage.src = URL.createObjectURL(storyBlob);
-  baseStoryImage.onload = function () {
-    canvasStory.width = baseStoryImage.width;
-    canvasStory.height = baseStoryImage.height;
-    drawData.call(this, { type: "story", img: baseStoryImage, config });
-    // zip.addFileToZip("story.png", canvas.toDataURL());
-    // createDownloadButton(canvas, "story");
+    createDownloadButton(canvas, type);
   };
 
   generateButton.textContent = "Gerar artes";
@@ -108,22 +99,23 @@ function createDownloadButton(canvas, name) {
 }
 
 function drawData({ type = "telao", img, config }) {
-  const { rua: ruaCoords, fontSize = 41.66 } = config[type] || coords[type];
-  const canvas = type === "telao" ? canvasTelao : canvasStory;
+  const { rua: ruaCoords } = config[type] || coords[type];
+  const { fontSize = 41.66, fontFamily = "MonumentRegular" } = config;
 
   const ctx = canvas.getContext("2d");
 
   ctx.drawImage(img, 0, 0);
-  ctx.font = `${fontSize}px MonumentRegular`;
+  ctx.font = `${fontSize}px ${fontFamily}`;
   ctx.fillStyle = "white";
 
-  const enderecoInput = document.querySelector("[name=address]");
-  const bairroInput = document.querySelector("[name=neighborhood]");
-  const numeroInput = document.querySelector("[name=addressNumber]");
-  const endereco = enderecoInput.value.replace(/rua/gi, "").trim();
-  const bairro = bairroInput.value;
+  const addressInput = document.querySelector("[name=address]");
+  const neighborhoodInput = document.querySelector("[name=neighborhood]");
+  const numberInput = document.querySelector("[name=addressNumber]");
+  const address = addressInput.value.replace(/rua/gi, "").trim();
+  const neighborhood = neighborhoodInput.value;
 
-  const enderecoFormatado = `R. ${endereco}, ${numeroInput.value}, ${bairro}`;
+  const formattedAddress = `R. ${address}, ${numberInput.value}, ${neighborhood}`;
+
   let posX = ruaCoords.x;
   let posY = ruaCoords.y;
 
@@ -132,8 +124,9 @@ function drawData({ type = "telao", img, config }) {
       const textWidth = ctx.measureText(txt).width;
       return textWidth / 2;
     }
+
     const x = this.width / 2;
-    posX = x - measureTextSize(enderecoFormatado);
+    posX = x - measureTextSize(formattedAddress);
     posY = ruaCoords.y || this.height - 293;
   }
 
@@ -141,7 +134,7 @@ function drawData({ type = "telao", img, config }) {
   let offsetX = 0;
   let offsetY = 0;
 
-  const medidas = ctx.measureText(enderecoFormatado);
+  const medidas = ctx.measureText(formattedAddress);
   function isMouseSobreTexto(mouseX, mouseY) {
     return (
       mouseX >= posX &&
@@ -169,7 +162,8 @@ function drawData({ type = "telao", img, config }) {
       ctx.stroke();
     }
 
-    ctx.fillText(enderecoFormatado, posX, posY);
+    console.log(posX, posY);
+    ctx.fillText(formattedAddress, posX, posY);
   }
 
   canvas.addEventListener("mousedown", (e) => {
@@ -201,7 +195,7 @@ function drawData({ type = "telao", img, config }) {
     reset();
   });
 
-  ctx.fillText(enderecoFormatado, posX, posY);
+  ctx.fillText(formattedAddress, posX, posY);
   // ctx.fillText(bairro, bairroCoords.x, bairroCoords.y);
 }
 
