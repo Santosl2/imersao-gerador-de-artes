@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gerador de arte | Imersão</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"
+      integrity="sha512-csNcFYJniKjJxRWRV1R7fvnXrycHP6qDR21mgz1ZP55xY5d+aHLfo9/FcGDQLfn2IfngbAHd8LdfsagcCqgTcQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script src="./lib/jszip.min.js"></script>
+  </head>
+  <body class="p-4 w-full">
+    <div class="min-h-screen p-8">
+      <div class="container mx-auto">
+        <h1 class="text-4xl font-bold text-center mb-10 text-blue-800">
+          Editor de artes
+        </h1>
+        <div class="grid grid-cols-1 lg:grid-cols-1 gap-8">
+          <div class="rounded-xl border bg-card text-card-foreground shadow-lg">
+            <div class="flex flex-col space-y-1.5 p-6">
+              <div class="tracking-tight text-2xl font-semibold text-blue-700">
+                Digite os dados
+              </div>
+            </div>
+            <div class="p-6 pt-0">
+              <form class="space-y-6" onsubmit="loadImages();return false;">
+                <div class="space-y-2">
+                  <label
+                    class="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm font-medium text-gray-700"
+                    for="address"
+                    >Endereço</label
+                  >
+                  <div class="relative">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-house absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                    >
+                      <path
+                        d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"
+                      ></path>
+                      <path
+                        d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"
+                      ></path>
+                    </svg>
+                    <input
+                      class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 pl-10"
+                      id="address"
+                      name="address"
+                      placeholder="Ex.: Rua Belém"
+                      required=""
+                      value="Rua Prata"
+                    />
+                  </div>
+                </div>
+
+                <div class="space-y-2">
+                  <label
+                    class="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm font-medium text-gray-700"
+                    for="address"
+                    >Bairro</label
+                  >
+                  <div class="relative">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-house absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                    >
+                      <path
+                        d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"
+                      ></path>
+                      <path
+                        d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"
+                      ></path>
+                    </svg>
+                    <input
+                      class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 pl-10"
+                      id="neighborhood"
+                      name="neighborhood"
+                      placeholder="Ex.: Veneza 1"
+                      required=""
+                      value="Iguaçu"
+                    />
+                  </div>
+                </div>
+
+                <div class="space-y-2">
+                  <label
+                    class="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm font-medium text-gray-700"
+                    for="addressNumber"
+                    >Número</label
+                  >
+                  <div class="relative">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-map-pin absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                    >
+                      <path
+                        d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"
+                      ></path>
+                      <circle cx="12" cy="10" r="3"></circle>
+                    </svg>
+                    <input
+                      class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 pl-10"
+                      id="addressNumber"
+                      name="addressNumber"
+                      placeholder="Número da casa. Ex.: 170"
+                      required=""
+                      value="170"
+                    />
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div class="space-y-2">
+                    <label
+                      class="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm font-medium text-gray-700"
+                      for="address"
+                      >Para qual departamento</label
+                    >
+                    <div class="relative">
+                      <select
+                        class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 pl-4"
+                        id="department"
+                        name="department"
+                        required=""
+                        value="imersao-2024"
+                      >
+                        <option value="imersao-2024">Imersão 2024</option>
+                        <option value="ct-2025">Conexão Teen 2025</option>
+                        <option value="deboras">Déboras</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="space-y-2">
+                    <label
+                      class="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm font-medium text-gray-700"
+                      for="address"
+                      >Estilo da arte</label
+                    >
+                    <div class="relative">
+                      <select
+                        class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 pl-4"
+                        id="style"
+                        name="style"
+                        required=""
+                        value="telao"
+                      >
+                        <option value="telao">Telão</option>
+                        <option value="story">Story</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <button
+                  id="generate"
+                  class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 shadow h-9 px-4 py-2 w-full bg-blue-600 hover:bg-blue-700 text-white"
+                  type="submit"
+                >
+                  Gerar artes
+                </button>
+              </form>
+            </div>
+          </div>
+
+          <section
+            class="rounded-xl border bg-card text-card-foreground shadow-lg"
+          >
+            <div class="flex flex-col space-y-1.5 p-6">
+              <div class="tracking-tight text-2xl font-semibold text-blue-700">
+                Preview
+              </div>
+            </div>
+
+            <div class="p-6 pt-0 space-y-6">
+              <p class="md:hidden">
+                As previews estão desabilitadas para celular
+              </p>
+
+              <div class="relative rounded-lg overflow-hidden hidden md:block">
+                <canvas id="story"></canvas>
+                <canvas id="telao"></canvas>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </body>
+  <style>
+    a {
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+  </style>
+  <script src="scripts.js" defer></script>
+</html>
