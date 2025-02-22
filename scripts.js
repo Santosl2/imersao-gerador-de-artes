@@ -82,7 +82,7 @@ async function loadImages() {
     drawData.call(this, { type, img, config });
 
     //   // zip.addFileToZip("telao.png", canvas.toDataURL());
-    createDownloadButton(canvas, type);
+    setupCanvasDownload(canvas, type);
   };
 
   generateButton.textContent = "Gerar artes";
@@ -90,23 +90,29 @@ async function loadImages() {
   // await zip.generateZip();
 }
 
-function createDownloadButton(canvas, name) {
-  const downloadButton = document.createElement("a");
-  downloadButton.innerText = `Baixar arte ${name}`;
-  downloadButton.href = canvas.toDataURL();
-  downloadButton.download = `${name}-${new Date().getTime()}.png`;
-  form.appendChild(downloadButton);
+function setupCanvasDownload(canvas, name) {
+  const downloadButtonArea = document.getElementById("button-area");
+  downloadButtonArea.removeAttribute("class");
+  const downloadButton = document.getElementById("download");
+  downloadButton.addEventListener("click", function (e) {
+    downloadButton.href = canvas.toDataURL();
+    downloadButton.download = `${name}-${new Date().getTime()}.png`;
+  });
 }
 
 function drawData({ type = "telao", img, config }) {
   const { rua: ruaCoords } = config[type] || coords[type];
-  const { fontSize = 41.66, fontFamily = "MonumentRegular" } = config;
+  const {
+    fontSize = 41.66,
+    fontFamily = "MonumentRegular",
+    fontColor = "#fff",
+  } = config;
 
   const ctx = canvas.getContext("2d");
 
   ctx.drawImage(img, 0, 0);
   ctx.font = `${fontSize}px ${fontFamily}`;
-  ctx.fillStyle = "white";
+  ctx.fillStyle = fontColor;
 
   const addressInput = document.querySelector("[name=address]");
   const neighborhoodInput = document.querySelector("[name=neighborhood]");
