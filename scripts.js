@@ -1,7 +1,9 @@
 const canvas = document.getElementById("canvas");
 const canvasTelao = document.getElementById("telao");
 const canvasStory = document.getElementById("story");
+
 const img = document.getElementById("img");
+
 const generateButton = document.getElementById("generate");
 const form = document.querySelector("form");
 
@@ -13,6 +15,14 @@ async function getImageBlob(image) {
   return await data.blob();
 }
 
+async function getDepartmentConfig(department) {
+  const data = await fetch(`./images/${department}/config.json`, {
+    method: "GET",
+  });
+
+  return await data.json();
+}
+
 async function loadFonts() {
   const font = new FontFace(
     "MonumentRegular",
@@ -22,6 +32,7 @@ async function loadFonts() {
   document.fonts.add(font);
 }
 
+// Fallback
 const coords = {
   telao: {
     rua: {
@@ -47,8 +58,12 @@ const coords = {
 
 async function loadImages() {
   await loadFonts();
-  const telao = getImageBlob("telao.png");
-  const story = getImageBlob("story.png");
+
+  const department = document.querySelector("[name=department]").value;
+  const config = await getDepartmentConfig(department);
+
+  const telao = getImageBlob(`${department}/telao.png`);
+  const story = getImageBlob(`${department}/story.png`);
 
   generateButton.textContent = "Gerando artes...";
   generateButton.disabled = true;
@@ -63,7 +78,7 @@ async function loadImages() {
   baseTelaoImage.onload = function () {
     canvasTelao.width = baseTelaoImage.width;
     canvasTelao.height = baseTelaoImage.height;
-    drawData.call(this, { type: "telao", img: baseTelaoImage });
+    drawData.call(this, { type: "telao", img: baseTelaoImage, config });
 
     //   // zip.addFileToZip("telao.png", canvas.toDataURL());
     //   // createDownloadButton(canvas, "telao");
@@ -74,7 +89,7 @@ async function loadImages() {
   baseStoryImage.onload = function () {
     canvasStory.width = baseStoryImage.width;
     canvasStory.height = baseStoryImage.height;
-    drawData.call(this, { type: "story", img: baseStoryImage });
+    drawData.call(this, { type: "story", img: baseStoryImage, config });
     // zip.addFileToZip("story.png", canvas.toDataURL());
     // createDownloadButton(canvas, "story");
   };
@@ -92,11 +107,10 @@ function createDownloadButton(canvas, name) {
   form.appendChild(downloadButton);
 }
 
-function drawData({ type = "telao", img }) {
-  const { rua: ruaCoords } = coords[type];
+function drawData({ type = "telao", img, config }) {
+  const { rua: ruaCoords, fontSize = 41.66 } = config[type] || coords[type];
   const canvas = type === "telao" ? canvasTelao : canvasStory;
 
-  const fontSize = 41.66;
   const ctx = canvas.getContext("2d");
 
   ctx.drawImage(img, 0, 0);
@@ -120,7 +134,7 @@ function drawData({ type = "telao", img }) {
     }
     const x = this.width / 2;
     posX = x - measureTextSize(enderecoFormatado);
-    posY = this.height - 293;
+    posY = ruaCoords.y || this.height - 293;
   }
 
   let isDragging = false;
