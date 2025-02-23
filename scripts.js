@@ -130,10 +130,10 @@ function drawData({ type = "telao", img, config }) {
   const neighborhoodInput = document.querySelector("[name=neighborhood]");
   const numberInput = document.querySelector("[name=addressNumber]");
 
-  const address = addressInput.value.replace(/rua/gi, "").trim();
+  const address = addressInput.value;
   const neighborhood = neighborhoodInput.value.toUpperCase();
 
-  let formattedAddress = `RUA ${address}, ${numberInput.value}`.toUpperCase();
+  let formattedAddress = `${address}, ${numberInput.value}`.toUpperCase();
 
   let posX = ruaCoords.x;
   let posY = ruaCoords.y;
