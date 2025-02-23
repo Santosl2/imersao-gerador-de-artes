@@ -217,7 +217,7 @@ function drawData({ type = "telao", img, config }) {
     });
   }
 
-  canvas.addEventListener("mousedown", (e) => {
+  function onDown(e) {
     const { mouseX, mouseY } = catchMouseCoords(e);
     const text = isMouseOverText(mouseX, mouseY);
     if (text) {
@@ -227,9 +227,9 @@ function drawData({ type = "telao", img, config }) {
       offsetY = mouseY - text.posY;
       reset();
     }
-  });
+  }
 
-  canvas.addEventListener("mousemove", (e) => {
+  function onMove(e) {
     if (isDragging && currentSelectedTextId) {
       const { mouseX, mouseY } = catchMouseCoords(e);
 
@@ -241,12 +241,16 @@ function drawData({ type = "telao", img, config }) {
         reset();
       }
     }
-  });
+  }
 
-  canvas.addEventListener("mouseup", () => {
+  function onUp() {
     isDragging = false;
     reset();
-  });
+  }
+
+  canvas.addEventListener("pointerdown", onDown);
+  canvas.addEventListener("pointermove", onMove);
+  canvas.addEventListener("pointerup", onUp);
 
   texts.push({
     id: Date.now() + Math.random(),
