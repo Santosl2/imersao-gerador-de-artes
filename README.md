@@ -1,4 +1,6 @@
-# 🎨 Immersion Art Generator
+# 🎨 Art Generator
+
+![Preview of the system](preview.gif)
 
 This project is an image generator created for my church. It allows users to create customized artwork in **1920x1080** and **1080x1920** resolutions, making it easy to produce promotional materials.
 
