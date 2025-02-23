@@ -166,6 +166,7 @@ function drawData({ type = "telao", img, config }) {
   }
 
   let isDragging = false;
+  let showGuideLine = false;
 
   let texts = [];
 
@@ -173,6 +174,16 @@ function drawData({ type = "telao", img, config }) {
 
   let offsetX = 0;
   let offsetY = 0;
+
+  function renderGuideLine() {
+    ctx.beginPath();
+    ctx.strokeStyle = "#ff4444";
+    ctx.setLineDash([5, 5]);
+    ctx.moveTo(canvas.width / 2, 0);
+    ctx.lineTo(canvas.width / 2, canvas.height);
+    ctx.stroke();
+    ctx.setLineDash([]);
+  }
 
   function isMouseOverText(mouseX, mouseY) {
     for (let i = texts.length - 1; i >= 0; i--) {
@@ -196,6 +207,8 @@ function drawData({ type = "telao", img, config }) {
     ctx.clearRect(0, 0, img.width, img.height);
     ctx.drawImage(img, 0, 0);
     const padding = 5; // Espaço entre o texto e a borda
+
+    if (showGuideLine) renderGuideLine();
 
     texts.forEach((item) => {
       const textMeasurement = ctx.measureText(item.text);
@@ -238,12 +251,15 @@ function drawData({ type = "telao", img, config }) {
         text.posX = mouseX - offsetX;
         text.posY = mouseY - offsetY;
 
+        const textPos = text.posX + ctx.measureText(text.text).width / 2;
+        showGuideLine = Math.abs(canvas.width / 2 - textPos) <= 0.9;
         reset();
       }
     }
   }
 
   function onUp() {
+    showGuideLine = false;
     isDragging = false;
     reset();
   }
