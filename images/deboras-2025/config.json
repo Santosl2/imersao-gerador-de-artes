@@ -1,25 +1,25 @@
 {
   "fontSize": 32,
-  "fontFamily": "MontserratSemiBold",
-  "fontColor": "#FFF3D5",
+  "fontFamily": "MaximaNouvaBold",
+  "fontColor": "#fff",
   "telao": {
     "rua": {
-      "x": "782",
-      "y": "948"
+      "x": "847",
+      "y": "997"
     },
     "bairro": {
-      "x": "782",
-      "y": "977"
+      "x": "848",
+      "y": "1024"
     }
   },
   "story": {
     "rua": {
-      "x": "414",
-      "y": "1771"
+      "x": "427",
+      "y": "1776"
     },
     "bairro": {
-      "x": "408",
-      "y": "1800"
+      "x": "427",
+      "y": "1801"
     }
   }
 }
