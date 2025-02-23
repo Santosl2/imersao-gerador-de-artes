@@ -38,6 +38,7 @@ async function loadFonts() {
     },
     { name: "MontserratRegular", url: "./fonts/Montserrat-Regular.otf" },
     { name: "MontserratSemiBold", url: "./fonts/Montserrat-SemiBold.otf" },
+    { name: "MaximaNouvaBold", url: "./fonts/MaximaNouva-Bold.ttf" },
   ];
 
   fonts.forEach(async ({ name, url }) => {
@@ -169,6 +170,7 @@ function drawData({ type = "telao", img, config }) {
         mouseY >= item.posY - fontSize && // aproximação da altura da fonte
         mouseY <= item.posY
       ) {
+        console.log(item);
         return item;
       }
     }

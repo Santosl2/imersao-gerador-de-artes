@@ -1,0 +1,25 @@
+{
+  "fontSize": 32,
+  "fontFamily": "MaximaNouvaBold",
+  "fontColor": "#fff",
+  "telao": {
+    "rua": {
+      "x": "847",
+      "y": "997"
+    },
+    "bairro": {
+      "x": "848",
+      "y": "1024"
+    }
+  },
+  "story": {
+    "rua": {
+      "x": "427",
+      "y": "1776"
+    },
+    "bairro": {
+      "x": "427",
+      "y": "1801"
+    }
+  }
+}
