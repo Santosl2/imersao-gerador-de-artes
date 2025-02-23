@@ -3,6 +3,9 @@ const generateButton = document.getElementById("generate");
 const form = document.querySelector("form");
 const textEditor = document.getElementById("textEditor");
 
+/**
+ * Captures the mouse coordinates within the canvas
+ */
 function catchMouseCoords(e) {
   const rect = canvas.getBoundingClientRect();
   const mouseX = e.clientX - rect.left;
@@ -14,6 +17,9 @@ function catchMouseCoords(e) {
   };
 }
 
+/**
+ * Retrieves the image as a Blob from the specified directory
+ */
 async function getImageBlob(image) {
   const data = await fetch(`./images/${image}`, {
     method: "GET",
@@ -22,6 +28,9 @@ async function getImageBlob(image) {
   return await data.blob();
 }
 
+/**
+ * Retrieves the configuration of a specific department
+ */
 async function getDepartmentConfig(department) {
   const data = await fetch(`./images/${department}/config.json`, {
     method: "GET",
@@ -30,6 +39,9 @@ async function getDepartmentConfig(department) {
   return await data.json();
 }
 
+/**
+ * Loads custom fonts for the project
+ */
 async function loadFonts() {
   const fonts = [
     {
@@ -38,6 +50,7 @@ async function loadFonts() {
     },
     { name: "MontserratRegular", url: "./fonts/Montserrat-Regular.otf" },
     { name: "MontserratSemiBold", url: "./fonts/Montserrat-SemiBold.otf" },
+    { name: "MontserratBold", url: "./fonts/Montserrat-Bold.otf" },
     { name: "MaximaNouvaBold", url: "./fonts/MaximaNouva-Bold.ttf" },
   ];
 
@@ -73,6 +86,9 @@ const coords = {
   },
 };
 
+/**
+ * Loads images and configurations of the selected department
+ */
 async function loadImages() {
   const department = document.querySelector("[name=department]").value;
   const type = document.querySelector("[name=style]:checked").value;
@@ -96,6 +112,9 @@ async function loadImages() {
   generateButton.disabled = false;
 }
 
+/**
+ * Sets up the download button for the canvas
+ */
 function setupCanvasDownload(canvas, name) {
   const downloadButtonArea = document.getElementById("button-area");
   downloadButtonArea.removeAttribute("class");
@@ -106,6 +125,9 @@ function setupCanvasDownload(canvas, name) {
   });
 }
 
+/**
+ * Draws data on the canvas and allows manual adjustments
+ */
 function drawData({ type = "telao", img, config }) {
   const { rua: ruaCoords, bairro: bairroCoords } = config[type] || coords[type];
   const {
@@ -241,6 +263,7 @@ function drawData({ type = "telao", img, config }) {
     posX: bairroCoords.x,
     posY: bairroCoords.y,
   });
+
   ctx.fillText(neighborhood, bairroCoords.x, bairroCoords.y);
 }
 
@@ -251,6 +274,9 @@ window.onload = async () => {
   await loadFonts();
 };
 
+/**
+ * Toggles between preview and edit mode for the canvas
+ */
 function togglePreview() {
   isPreviewMode = !isPreviewMode;
 
