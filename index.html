@@ -206,6 +206,7 @@
 
               <div class="relative rounded-lg overflow-hidden hidden md:block">
                 <canvas id="canvas"></canvas>
+                <textarea type="text" id="textEditor"></textarea>
 
                 <div class="hidden" id="button-area">
                   <a
@@ -227,6 +228,19 @@
     a {
       text-decoration: underline;
       text-underline-offset: 4px;
+    }
+    canvas {
+      object-fit: cover;
+    }
+
+    #textEditor {
+      appearance: none;
+      position: absolute;
+      display: none;
+      font-size: 20px;
+      border: 1px solid transparent;
+      padding: 2px;
+      background: transparent;
     }
   </style>
   <script src="scripts.js" defer></script>
