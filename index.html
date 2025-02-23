@@ -5,36 +5,63 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gerador de arte | Igreja Projeto Ômega</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"
-      integrity="sha512-csNcFYJniKjJxRWRV1R7fvnXrycHP6qDR21mgz1ZP55xY5d+aHLfo9/FcGDQLfn2IfngbAHd8LdfsagcCqgTcQ=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"></script>
     <script src="./lib/jszip.min.js"></script>
   </head>
-  <body class="p-4 w-full">
-    <div class="min-h-screen p-8">
-      <div class="container mx-auto">
-        <h1 class="text-4xl font-bold text-center mb-10 text-blue-800">
-          Editor de artes
-        </h1>
-        <div class="grid grid-cols-1 lg:grid-cols-1 gap-8">
-          <div class="rounded-xl border bg-card text-card-foreground shadow-lg">
-            <div class="flex flex-col space-y-1.5 p-6">
-              <div class="tracking-tight text-2xl font-semibold text-blue-700">
-                Digite os dados
-              </div>
+  <body class="bg-gray-50">
+    <div class="min-h-screen p-4 md:p-8">
+      <div class="container mx-auto max-w-4xl">
+        <header class="text-center mb-8">
+          <h1 class="text-3xl md:text-4xl font-bold text-blue-800 mb-2">
+            Editor de Artes
+          </h1>
+          <p class="text-gray-600">
+            Crie artes personalizadas para seu departamento
+          </p>
+        </header>
+
+        <div class="grid gap-8">
+          <!-- Form Card -->
+          <div
+            class="bg-white rounded-xl border shadow-lg transition-all hover:shadow-xl"
+          >
+            <div class="p-6 border-b border-gray-100">
+              <h2
+                class="text-2xl font-semibold text-blue-700 flex items-center gap-2"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  class="text-blue-500"
+                >
+                  <path
+                    d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
+                  ></path>
+                  <path
+                    d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"
+                  ></path>
+                </svg>
+                Informações do Endereço
+              </h2>
             </div>
-            <div class="p-6 pt-0">
-              <form class="space-y-6" onsubmit="loadImages();return false;">
+
+            <form class="p-6 space-y-6" onsubmit="loadImages();return false;">
+              <div class="grid md:grid-cols-2 gap-6">
+                <!-- Address Field -->
                 <div class="space-y-2">
                   <label
-                    class="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm font-medium text-gray-700"
+                    class="text-sm font-medium text-gray-700 flex items-center gap-1"
                     for="address"
-                    >Endereço</label
                   >
-                  <div class="relative">
+                    Endereço
+                    <span class="text-red-500">*</span>
+                  </label>
+                  <div class="relative group">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="18"
@@ -43,9 +70,7 @@
                       fill="none"
                       stroke="currentColor"
                       stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      class="lucide lucide-house absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                      class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 group-focus-within:text-blue-500 transition-colors"
                     >
                       <path
                         d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"
@@ -55,22 +80,25 @@
                       ></path>
                     </svg>
                     <input
-                      class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 pl-10"
+                      class="flex h-10 w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:cursor-not-allowed disabled:opacity-50 pl-10 transition-all"
                       id="address"
                       name="address"
                       placeholder="Ex.: Rua Brasil ou Av. Macapá"
-                      required=""
+                      required
                     />
                   </div>
                 </div>
 
+                <!-- Neighborhood Field -->
                 <div class="space-y-2">
                   <label
-                    class="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm font-medium text-gray-700"
-                    for="address"
-                    >Bairro</label
+                    class="text-sm font-medium text-gray-700 flex items-center gap-1"
+                    for="neighborhood"
                   >
-                  <div class="relative">
+                    Bairro
+                    <span class="text-red-500">*</span>
+                  </label>
+                  <div class="relative group">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="18"
@@ -79,45 +107,7 @@
                       fill="none"
                       stroke="currentColor"
                       stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      class="lucide lucide-house absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-                    >
-                      <path
-                        d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"
-                      ></path>
-                      <path
-                        d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"
-                      ></path>
-                    </svg>
-                    <input
-                      class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 pl-10"
-                      id="neighborhood"
-                      name="neighborhood"
-                      placeholder="Ex.: Veneza 1"
-                      required=""
-                    />
-                  </div>
-                </div>
-
-                <div class="space-y-2">
-                  <label
-                    class="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm font-medium text-gray-700"
-                    for="addressNumber"
-                    >Número</label
-                  >
-                  <div class="relative">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="18"
-                      height="18"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      class="lucide lucide-map-pin absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                      class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 group-focus-within:text-blue-500 transition-colors"
                     >
                       <path
                         d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"
@@ -125,123 +115,246 @@
                       <circle cx="12" cy="10" r="3"></circle>
                     </svg>
                     <input
-                      class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 pl-10"
-                      id="addressNumber"
-                      name="addressNumber"
-                      placeholder="Número da casa. Ex.: 215"
-                      required=""
+                      class="flex h-10 w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:cursor-not-allowed disabled:opacity-50 pl-10 transition-all"
+                      id="neighborhood"
+                      name="neighborhood"
+                      placeholder="Ex.: Veneza 1"
+                      required
                     />
                   </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div class="space-y-2">
-                    <label
-                      class="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm font-medium text-gray-700"
-                      for="address"
-                      >Para qual departamento</label
-                    >
-                    <div class="relative">
-                      <select
-                        class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 pl-4"
-                        id="department"
-                        name="department"
-                        required=""
-                        value="imersao-2024"
-                      >
-                        <option value="imersao-2024">Imersão 2024</option>
-                        <option value="ct-2025">Conexão Teen 2025</option>
-                        <option value="mulheres-relevantes">
-                          Mulheres Relevantes
-                        </option>
-                        <option value="deboras-2025">Déboras 2025</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="space-y-2">
-                    <label
-                      class="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm font-medium text-gray-700"
-                      for="address"
-                      >Estilo da arte</label
-                    >
-                    <div class="relative">
-                      <select
-                        class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 pl-4"
-                        id="style"
-                        name="style"
-                        required=""
-                        value="telao"
-                      >
-                        <option value="telao">Telão</option>
-                        <option value="story">Story</option>
-                      </select>
-                    </div>
-                  </div>
+                <!-- Number Field -->
+                <div class="space-y-2">
+                  <label
+                    class="text-sm font-medium text-gray-700 flex items-center gap-1"
+                    for="addressNumber"
+                  >
+                    Número
+                    <span class="text-red-500">*</span>
+                  </label>
+                  <input
+                    class="flex h-10 w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:cursor-not-allowed disabled:opacity-50 transition-all"
+                    type="number"
+                    id="addressNumber"
+                    name="addressNumber"
+                    placeholder="Ex.: 215"
+                    required
+                  />
                 </div>
 
-                <button
-                  id="generate"
-                  class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 shadow h-9 px-4 py-2 w-full bg-blue-600 hover:bg-blue-700 text-white"
-                  type="submit"
+                <!-- Department Field -->
+                <div class="space-y-2">
+                  <label
+                    class="text-sm font-medium text-gray-700 flex items-center gap-1"
+                    for="department"
+                  >
+                    Departamento
+                    <span class="text-red-500">*</span>
+                  </label>
+                  <select
+                    class="flex h-10 w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:cursor-not-allowed disabled:opacity-50 transition-all"
+                    id="department"
+                    name="department"
+                    required
+                  >
+                    <option value="" disabled selected>
+                      Selecione um departamento
+                    </option>
+                    <option value="imersao-2024">Imersão 2024</option>
+                    <option value="ct-2025">Conexão Teen 2025</option>
+                    <option value="mulheres-relevantes">
+                      Mulheres Relevantes
+                    </option>
+                    <option value="deboras-2025">Déboras 2025</option>
+                  </select>
+                </div>
+
+                <!-- Style Field -->
+                <div class="space-y-2 md:col-span-2">
+                  <label
+                    class="text-sm font-medium text-gray-700 flex items-center gap-1"
+                    for="style"
+                  >
+                    Estilo da Arte
+                    <span class="text-red-500">*</span>
+                  </label>
+                  <div class="grid grid-cols-2 gap-4">
+                    <label
+                      class="relative flex cursor-pointer rounded-lg border bg-white p-4 focus:outline-none"
+                    >
+                      <input
+                        type="radio"
+                        name="style"
+                        value="telao"
+                        class="peer sr-only"
+                        checked
+                      />
+                      <span class="flex flex-col gap-2">
+                        <span class="text-sm font-medium">Telão</span>
+                        <span class="text-xs text-gray-500"
+                          >Formato adequado para projeção</span
+                        >
+                      </span>
+                      <span
+                        class="pointer-events-none absolute -inset-px rounded-lg border-2 border-transparent peer-checked:border-blue-500"
+                      ></span>
+                    </label>
+                    <label
+                      class="relative flex cursor-pointer rounded-lg border bg-white p-4 focus:outline-none"
+                    >
+                      <input
+                        type="radio"
+                        name="style"
+                        value="story"
+                        class="peer sr-only"
+                      />
+                      <span class="flex flex-col gap-2">
+                        <span class="text-sm font-medium">Story</span>
+                        <span class="text-xs text-gray-500"
+                          >Formato vertical para redes sociais</span
+                        >
+                      </span>
+                      <span
+                        class="pointer-events-none absolute -inset-px rounded-lg border-2 border-transparent peer-checked:border-blue-500"
+                      ></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <button
+                id="generate"
+                class="inline-flex items-center justify-center gap-2 w-full md:w-auto px-6 py-3 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                type="submit"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  class="animate-spin hidden"
+                  id="loading-icon"
                 >
-                  Gerar artes
-                </button>
-              </form>
-            </div>
+                  <path d="M21 12a9 9 0 1 1-6.219-8.56"></path>
+                </svg>
+                <span>Gerar Arte</span>
+              </button>
+            </form>
           </div>
 
-          <section
-            class="rounded-xl border bg-card text-card-foreground shadow-lg"
-          >
-            <div class="flex flex-col space-y-1.5 p-6">
-              <div class="tracking-tight text-2xl font-semibold text-blue-700">
+          <!-- Preview Card -->
+          <div class="bg-white rounded-xl border shadow-lg">
+            <div class="p-6 border-b border-gray-100">
+              <h2
+                class="text-2xl font-semibold text-blue-700 flex items-center gap-2"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  class="text-blue-500"
+                >
+                  <path
+                    d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"
+                  ></path>
+                  <path d="M3.27 6.96 12 12.01l8.73-5.05"></path>
+                  <path d="M12 22.08V12"></path>
+                </svg>
                 Preview
-              </div>
+              </h2>
             </div>
 
-            <div class="p-6 pt-0 space-y-6">
-              <p class="md:hidden">
-                As previews estão desabilitadas para celular
-              </p>
-
-              <div class="relative rounded-lg overflow-hidden hidden md:block">
-                <canvas id="canvas"></canvas>
-                <textarea type="text" id="textEditor"></textarea>
-
-                <div class="hidden" id="button-area">
-                  <a
-                    id="download"
-                    class="no-underline mt-5 cursor-pointer inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 shadow h-9 px-4 py-2 w-max bg-blue-600 hover:bg-blue-700 text-white"
-                    type="submit"
+            <div class="p-6 space-y-6">
+              <div class="md:hidden">
+                <div
+                  class="flex items-center gap-2 p-4 bg-yellow-50 text-yellow-700 rounded-lg"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
                   >
-                    Clique aqui para baixar
-                  </a>
+                    <path
+                      d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
+                    ></path>
+                    <path d="M12 9v4"></path>
+                    <path d="M12 17h.01"></path>
+                  </svg>
+                  <p class="text-sm">
+                    Preview indisponível em dispositivos móveis
+                  </p>
                 </div>
               </div>
+
+              <div
+                class="relative rounded-lg overflow-hidden hidden md:block min-h-[400px] bg-gray-100"
+              >
+                <canvas id="canvas" class="w-full h-full"></canvas>
+
+                <div class="absolute top-4 left-4 flex gap-4">
+                  <button
+                    id="previewToggle"
+                    class="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-white text-blue-600 font-medium hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all border border-blue-200 shadow-sm"
+                    onclick="togglePreview()"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      class="preview-icon"
+                    >
+                      <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
+                      <polyline points="10 17 15 12 10 7" />
+                      <line x1="15" y1="12" x2="3" y2="12" />
+                    </svg>
+                    <span>Ir para o modo edição</span>
+                  </button>
+                </div>
+              </div>
+
+              <div id="button-area" class="hidden">
+                <a
+                  id="download"
+                  class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all cursor-pointer"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                  </svg>
+                  Baixar Arte
+                </a>
+              </div>
             </div>
-          </section>
+          </div>
         </div>
       </div>
     </div>
-  </body>
-  <style>
-    a {
-      text-decoration: underline;
-      text-underline-offset: 4px;
-    }
-    canvas {
-      object-fit: cover;
-    }
 
-    #textEditor {
-      appearance: none;
-      position: absolute;
-      display: none;
-      font-size: 20px;
-      border: 1px solid transparent;
-      padding: 2px;
-      background: transparent;
-    }
-  </style>
-  <script src="scripts.js" defer></script>
+    <script src="scripts.js" defer></script>
+  </body>
 </html>

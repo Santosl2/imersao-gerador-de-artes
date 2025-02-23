@@ -77,7 +77,7 @@ async function loadImages() {
   await loadFonts();
 
   const department = document.querySelector("[name=department]").value;
-  const type = document.querySelector("[name=style]").value;
+  const type = document.querySelector("[name=style]:checked").value;
   const config = await getDepartmentConfig(department);
 
   generateButton.textContent = "Gerando artes...";
@@ -264,4 +264,59 @@ function zipData() {
   }
 
   return { addFileToZip, generateZip };
+}
+
+let isPreviewMode = true;
+const previewToggle = document.getElementById("previewToggle");
+
+function togglePreview() {
+  isPreviewMode = !isPreviewMode;
+
+  if (isPreviewMode) {
+    // Preview mode (small)
+    canvas.classList.add("w-full", "h-full");
+    previewToggle.classList.remove(
+      "bg-blue-600",
+      "text-white",
+      "hover:bg-blue-700"
+    );
+    previewToggle.classList.add(
+      "bg-white",
+      "text-blue-600",
+      "hover:bg-blue-50"
+    );
+
+    // Update button text and icon
+    previewToggle.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="preview-icon">
+              <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
+              <polyline points="10 17 15 12 10 7"/>
+              <line x1="15" y1="12" x2="3" y2="12"/>
+            </svg>
+            <span>Ir para o modo edição</span>
+          `;
+  } else {
+    // Full size mode
+    canvas.classList.remove("w-full", "h-full");
+    previewToggle.classList.remove(
+      "bg-white",
+      "text-blue-600",
+      "hover:bg-blue-50"
+    );
+    previewToggle.classList.add(
+      "bg-blue-600",
+      "text-white",
+      "hover:bg-blue-700"
+    );
+
+    // Update button text and icon
+    previewToggle.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="preview-icon">
+              <path d="M9 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h4"/>
+              <polyline points="14 7 9 12 14 17"/>
+              <line x1="9" y1="12" x2="21" y2="12"/>
+            </svg>
+            <span>Ver preview</span>
+          `;
+  }
 }
