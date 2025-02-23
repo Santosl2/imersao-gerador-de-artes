@@ -74,8 +74,6 @@ const coords = {
 };
 
 async function loadImages() {
-  await loadFonts();
-
   const department = document.querySelector("[name=department]").value;
   const type = document.querySelector("[name=style]:checked").value;
   const config = await getDepartmentConfig(department);
@@ -85,22 +83,17 @@ async function loadImages() {
 
   const imageBlob = await getImageBlob(`${department}/${type}.png`);
 
-  const zip = zipData();
-
   const img = new Image();
   img.src = URL.createObjectURL(imageBlob);
   img.onload = function () {
     canvas.width = img.width;
     canvas.height = img.height;
     drawData.call(this, { type, img, config });
-
-    //   // zip.addFileToZip("telao.png", canvas.toDataURL());
     setupCanvasDownload(canvas, type);
   };
 
   generateButton.textContent = "Gerar artes";
   generateButton.disabled = false;
-  // await zip.generateZip();
 }
 
 function setupCanvasDownload(canvas, name) {
@@ -251,23 +244,12 @@ function drawData({ type = "telao", img, config }) {
   ctx.fillText(neighborhood, bairroCoords.x, bairroCoords.y);
 }
 
-function zipData() {
-  const zip = new JSZip();
-
-  function addFileToZip(name, data) {
-    zip.file(name, data, { base64: true });
-  }
-
-  async function generateZip() {
-    const content = await zip.generateAsync({ type: "blob" });
-    saveAs(content, "Imersão.zip");
-  }
-
-  return { addFileToZip, generateZip };
-}
-
 let isPreviewMode = true;
 const previewToggle = document.getElementById("previewToggle");
+
+window.onload = async () => {
+  await loadFonts();
+};
 
 function togglePreview() {
   isPreviewMode = !isPreviewMode;
