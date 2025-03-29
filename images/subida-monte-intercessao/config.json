@@ -1,0 +1,25 @@
+{
+  "fontSize": 32,
+  "fontFamily": "MontserratSemiBold",
+  "fontColor": "#fff",
+  "telao": {
+    "rua": {
+      "x": "782",
+      "y": "948"
+    },
+    "bairro": {
+      "x": "782",
+      "y": "977"
+    }
+  },
+  "story": {
+    "rua": {
+      "x": "414",
+      "y": "1771"
+    },
+    "bairro": {
+      "x": "408",
+      "y": "1800"
+    }
+  }
+}
